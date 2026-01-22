@@ -6,10 +6,10 @@ export default function Hero({ onGetStarted }) {
       <div className="hero-container">
 
         <div className="hero-content">
-      <div className="hero-badge">
+      { /* <div className="hero-badge">
         <span className="hero-badge-dot"></span>
-        <span> Workout Generator</span>
-      </div>
+        <span> Inactive currently</span>
+      </div> */}
 
       <h1 className="hero-title">
         Build Your Perfect
@@ -66,21 +66,21 @@ export default function Hero({ onGetStarted }) {
 
 
       <div className="training-cards">
-  <div className="training-card" style={{backgroundImage: 'url(/images/cardio.jpg)'}}>
+  <div className="training-card" style={{backgroundImage: 'url(src/cardio.jpg)'}}>
     <div className="training-card-content">
       <h3 className="training-card-title">Cardio</h3>
       <p className="training-card-desc">Boost your endurance and burn calories with high-intensity cardiovascular training. Perfect for heart health and fat loss.</p>
     </div>
   </div>
   
-  <div className="training-card" style={{backgroundImage: 'url(/images/weightlifting.jpg)'}}>
+  <div className="training-card" style={{backgroundImage: 'url(src/gym.jpg)'}}>
     <div className="training-card-content">
       <h3 className="training-card-title">Weightlifting</h3>
       <p className="training-card-desc">Build raw strength and muscle mass through progressive overload. The foundation of any serious training program.</p>
     </div>
   </div>
   
-  <div className="training-card" style={{backgroundImage: 'url(/images/calisthenics.jpg)'}}>
+  <div className="training-card" style={{backgroundImage: 'url(src/cali.png)'}}>
     <div className="training-card-content">
       <h3 className="training-card-title">Calisthenics</h3>
       <p className="training-card-desc">Master your bodyweight with functional movements. Develop strength, flexibility, and complete body control.</p>

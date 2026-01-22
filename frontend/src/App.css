@@ -317,8 +317,9 @@ html, body {
 .quote-banners {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 4rem;
+  margin-left: 8rem;
+  gap: 2.5rem;
+  margin-top: 12rem;
   width: 100%;
   max-width: 1200px;
 }
@@ -366,6 +367,7 @@ background-position: top center;
   justify-content: center;
   gap: 2rem;
   margin-top: 8rem;
+  margin-left: 12rem;
   width: 100%;
   max-width: 1200px;
 }
