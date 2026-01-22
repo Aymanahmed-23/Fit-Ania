@@ -1,208 +1,161 @@
+'use client';
+
 import { useState } from 'react';
+import "./Profile.css";
+
 
 export default function Profile() {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [editMode, setEditMode] = useState(false);
   
-  // Sample user data - replace with your API data
-  const user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    joined: 'January 2024',
-    avatar: '/images/default-avatar.jpg'
+  // Replace with your Ninja API data
+  const userProfile = {
+    name: 'Alex Champion',
+    email: 'alex@fitforge.com',
+    memberSince: 'Jan 2024',
+    avatar: '/images/default-avatar.jpg',
+    bio: 'Fitness enthusiast | Always pushing limits'
   };
 
-  const stats = [
-    { label: 'Workouts', value: '47' },
-    { label: 'This Week', value: '5' },
-    { label: 'Streak', value: '12 days' },
-    { label: 'Calories', value: '24,500' }
+  const workoutStats = [
+    { label: 'Total Workouts', value: '127', icon: '💪' },
+    { label: 'Total Hours', value: '96h', icon: '⏱️' },
+    { label: 'This Week', value: '5 days', icon: '🔥' },
+    { label: 'Streak', value: '14 days', icon: '⚡' }
   ];
 
-  const recentWorkouts = [
-    { date: 'Today', type: 'Chest & Triceps', duration: '45 min', difficulty: 'Hard' },
-    { date: 'Yesterday', type: 'Back & Biceps', duration: '50 min', difficulty: 'Medium' },
-    { date: 'Jan 18', type: 'Legs', duration: '55 min', difficulty: 'Hard' },
-    { date: 'Jan 17', type: 'Cardio', duration: '30 min', difficulty: 'Easy' }
+  const recentExercises = [
+    { name: 'Bench Press', reps: '5x5', weight: '185 lbs', difficulty: 'Hard' },
+    { name: 'Deadlift', reps: '3x5', weight: '315 lbs', difficulty: 'Hard' },
+    { name: 'Squats', reps: '5x5', weight: '225 lbs', difficulty: 'Medium' },
+    { name: 'Pull-ups', reps: '3x8', weight: 'Bodyweight', difficulty: 'Medium' }
   ];
 
-  const achievements = [
-    { icon: '🔥', title: '7-Day Streak', desc: 'Worked out 7 days in a row' },
-    { icon: '💪', title: 'First Workout', desc: 'Completed your first workout' },
-    { icon: '🏆', title: '10 Workouts', desc: 'Completed 10 total workouts' },
-    { icon: '⚡', title: 'Early Bird', desc: 'Worked out before 7 AM' }
+  const favoriteWorkouts = [
+    { name: 'Chest Day', exercises: 6, duration: '50 min' },
+    { name: 'Back & Biceps', exercises: 5, duration: '45 min' },
+    { name: 'Leg Day', exercises: 7, duration: '60 min' },
+    { name: 'Cardio Blast', exercises: 3, duration: '30 min' }
+  ];
+
+  const personalRecords = [
+    { exercise: 'Bench Press', weight: '225 lbs', date: 'Jan 15' },
+    { exercise: 'Deadlift', weight: '335 lbs', date: 'Jan 10' },
+    { exercise: 'Squat', weight: '275 lbs', date: 'Jan 5' }
   ];
 
   return (
-    <div className="profile-page">
-      <div className="profile-container">
+    <div className="profile-wrapper">
+      <div className="profile-content-main">
         
-        {/* Profile Header */}
-        <div className="profile-header">
-          <div className="profile-avatar">
-            <img src={user.avatar || "/placeholder.svg"} alt="Profile" />
-            <button className="avatar-edit">Edit</button>
+        {/* Hero Header Section */}
+        <div className="profile-hero">
+          <div className="profile-hero-bg"></div>
+          <div className="profile-hero-content">
+            <div className="profile-avatar-section">
+              <img src={userProfile.avatar || "/placeholder.svg"} alt="Profile" className="profile-avatar-img" />
+              <button className="avatar-badge" onClick={() => setEditMode(!editMode)}>
+                ✏️
+              </button>
+            </div>
+            <div className="profile-hero-text">
+              <h1 className="profile-name">{userProfile.name}</h1>
+              <p className="profile-bio">{userProfile.bio}</p>
+              <div className="profile-meta">
+                <span>{userProfile.email}</span>
+                <span className="dot">•</span>
+                <span>Member since {userProfile.memberSince}</span>
+              </div>
+            </div>
           </div>
-          <div className="profile-info">
-            <h1 className="profile-name">{user.name}</h1>
-            <p className="profile-email">{user.email}</p>
-            <p className="profile-joined">Member since {user.joined}</p>
-          </div>
-          <button className="profile-edit-btn">Edit Profile</button>
         </div>
 
         {/* Stats Grid */}
-        <div className="profile-stats">
-          {stats.map((stat, index) => (
-            <div key={index} className="profile-stat-card">
-              <span className="stat-value">{stat.value}</span>
+        <div className="stats-grid">
+          {workoutStats.map((stat, idx) => (
+            <div key={idx} className="stat-box">
+              <span className="stat-icon">{stat.icon}</span>
+              <span className="stat-number">{stat.value}</span>
               <span className="stat-label">{stat.label}</span>
             </div>
           ))}
         </div>
 
-        {/* Tabs */}
-        <div className="profile-tabs">
-          <button 
-            className={`profile-tab ${activeTab === 'overview' ? 'active' : ''}`}
-            onClick={() => setActiveTab('overview')}
-          >
-            Overview
-          </button>
-          <button 
-            className={`profile-tab ${activeTab === 'history' ? 'active' : ''}`}
-            onClick={() => setActiveTab('history')}
-          >
-            Workout History
-          </button>
-          <button 
-            className={`profile-tab ${activeTab === 'achievements' ? 'active' : ''}`}
-            onClick={() => setActiveTab('achievements')}
-          >
-            Achievements
-          </button>
-          <button 
-            className={`profile-tab ${activeTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('settings')}
-          >
-            Settings
-          </button>
-        </div>
-
-        {/* Tab Content */}
-        <div className="profile-content">
+        {/* Two Column Layout */}
+        <div className="profile-grid">
           
-          {activeTab === 'overview' && (
-            <div className="overview-tab">
-              <div className="overview-section">
-                <h3>Recent Activity</h3>
-                <div className="recent-list">
-                  {recentWorkouts.slice(0, 3).map((workout, index) => (
-                    <div key={index} className="recent-item">
-                      <div className="recent-info">
-                        <span className="recent-type">{workout.type}</span>
-                        <span className="recent-date">{workout.date}</span>
-                      </div>
-                      <span className={`recent-difficulty ${workout.difficulty.toLowerCase()}`}>
-                        {workout.difficulty}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="overview-section">
-                <h3>Quick Stats</h3>
-                <div className="quick-stats">
-                  <div className="quick-stat">
-                    <span className="qs-label">Favorite Muscle</span>
-                    <span className="qs-value">Chest</span>
-                  </div>
-                  <div className="quick-stat">
-                    <span className="qs-label">Avg Duration</span>
-                    <span className="qs-value">45 min</span>
-                  </div>
-                  <div className="quick-stat">
-                    <span className="qs-label">Preferred Difficulty</span>
-                    <span className="qs-value">Medium</span>
-                  </div>
-                </div>
-              </div>
+          {/* Left Column - Recent Exercises */}
+          <div className="profile-section">
+            <div className="section-header">
+              <h2>Recent Exercises</h2>
+              <a href="#" className="section-link">View All</a>
             </div>
-          )}
+            <div className="exercises-list">
+              {recentExercises.map((exercise, idx) => (
+                <div key={idx} className="exercise-item">
+                  <div className="exercise-info">
+                    <h3 className="exercise-name">{exercise.name}</h3>
+                    <p className="exercise-meta">{exercise.reps} • {exercise.weight}</p>
+                  </div>
+                  <span className={`badge badge-${exercise.difficulty.toLowerCase()}`}>
+                    {exercise.difficulty}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-          {activeTab === 'history' && (
-            <div className="history-tab">
-              <div className="history-list">
-                {recentWorkouts.map((workout, index) => (
-                  <div key={index} className="history-item">
-                    <div className="history-date">{workout.date}</div>
-                    <div className="history-details">
-                      <span className="history-type">{workout.type}</span>
-                      <span className="history-duration">{workout.duration}</span>
-                    </div>
-                    <span className={`history-difficulty ${workout.difficulty.toLowerCase()}`}>
-                      {workout.difficulty}
-                    </span>
-                  </div>
-                ))}
-              </div>
+          {/* Right Column - Personal Records */}
+          <div className="profile-section">
+            <div className="section-header">
+              <h2>Personal Records</h2>
+              <a href="#" className="section-link">Edit</a>
             </div>
-          )}
-
-          {activeTab === 'achievements' && (
-            <div className="achievements-tab">
-              <div className="achievements-grid">
-                {achievements.map((achievement, index) => (
-                  <div key={index} className="achievement-card">
-                    <span className="achievement-icon">{achievement.icon}</span>
-                    <h4 className="achievement-title">{achievement.title}</h4>
-                    <p className="achievement-desc">{achievement.desc}</p>
+            <div className="records-list">
+              {personalRecords.map((record, idx) => (
+                <div key={idx} className="record-item">
+                  <div className="record-exercise">
+                    <span className="record-name">{record.exercise}</span>
+                    <span className="record-date">{record.date}</span>
                   </div>
-                ))}
-              </div>
+                  <span className="record-weight">{record.weight}</span>
+                </div>
+              ))}
             </div>
-          )}
-
-          {activeTab === 'settings' && (
-            <div className="settings-tab">
-              <div className="settings-group">
-                <h3>Account Settings</h3>
-                <div className="setting-item">
-                  <div className="setting-info">
-                    <span className="setting-label">Email Notifications</span>
-                    <span className="setting-desc">Receive workout reminders</span>
-                  </div>
-                  <label className="toggle">
-                    <input type="checkbox" defaultChecked />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <div className="setting-item">
-                  <div className="setting-info">
-                    <span className="setting-label">Dark Mode</span>
-                    <span className="setting-desc">Use dark theme</span>
-                  </div>
-                  <label className="toggle">
-                    <input type="checkbox" defaultChecked />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <div className="setting-item">
-                  <div className="setting-info">
-                    <span className="setting-label">Units</span>
-                    <span className="setting-desc">Metric (kg, km)</span>
-                  </div>
-                  <button className="setting-btn">Change</button>
-                </div>
-              </div>
-              
-              <div className="settings-group">
-                <h3>Danger Zone</h3>
-                <button className="danger-btn">Delete Account</button>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
+
+        {/* Favorite Workouts */}
+        <div className="profile-section">
+          <div className="section-header">
+            <h2>Favorite Workouts</h2>
+            <a href="#" className="section-link">Create New</a>
+          </div>
+          <div className="workouts-grid">
+            {favoriteWorkouts.map((workout, idx) => (
+              <div key={idx} className="workout-card">
+                <div className="workout-icon">💪</div>
+                <h3 className="workout-name">{workout.name}</h3>
+                <div className="workout-stats">
+                  <span>{workout.exercises} exercises</span>
+                  <span>{workout.duration}</span>
+                </div>
+                <button className="btn-workout">Start</button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Settings Section */}
+        <div className="profile-section">
+          <h2>Settings</h2>
+          <div className="settings-container">
+            <button className="settings-btn">Edit Profile</button>
+            <button className="settings-btn">Change Password</button>
+            <button className="settings-btn">Preferences</button>
+            <button className="settings-btn logout">Logout</button>
+          </div>
+        </div>
+
       </div>
     </div>
   );

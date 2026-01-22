@@ -108,11 +108,7 @@ export default function FeaturesCarousel() {
   return (
     <section className="features-section" id="features">
       <div className="section-header">
-        <p className="section-subtitle">How It Works</p>
-        <h2 className="section-title">Three Simple Steps to Your Perfect Workout</h2>
-        <p className="section-description">
-          Our intelligent system creates personalized workout plans in seconds
-        </p>
+        
       </div>
 
       <div className="carousel-container">

@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from 'react'
+import { Link } from "react-router-dom";
+
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -22,8 +24,10 @@ export default function Navbar() {
         </div>
 
         <div className="navbar-actions">
-          <button className="btn-ghost">Profile</button>
-          <button className="btn-primary">Login / Sign Up</button>
+           <Link to="/profile" className="btn-ghost">
+          Profile
+        </Link>
+           <Link to="/sign-in" button className="btn-primary">Login / Sign Up</Link>
         </div>
 
         <button 
