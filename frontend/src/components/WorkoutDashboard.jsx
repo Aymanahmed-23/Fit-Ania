@@ -45,24 +45,50 @@ export default function WorkoutDashboard({ onClose }) {
   const [generatedWorkout, setGeneratedWorkout] = useState(null)
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const handleGenerate = async () => {
-    if (!selectedMuscle || !selectedDifficulty) return
+const handleGenerate = async () => {
+  if (!selectedMuscle || !selectedDifficulty) return;
 
-    setIsGenerating(true)
-    
-    // Simulate API call - replace with your Ninja API integration
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    // Use sample data or fetch from API
-    const workout = sampleWorkouts[selectedMuscle] || sampleWorkouts.Chest
-    setGeneratedWorkout({
-      muscle: selectedMuscle,
-      difficulty: selectedDifficulty,
-      exercises: workout
-    })
-    
-    setIsGenerating(false)
+  setIsGenerating(true);
+
+  try {
+    const response = await fetch("/api/workouts/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        muscle: selectedMuscle,
+        difficulty: selectedDifficulty,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to generate workout");
+    }
+
+  const data = await response.json();
+  console.log(data);
+
+  setGeneratedWorkout({
+    muscle: data.muscle,
+    difficulty: data.difficulty,
+    exercises: data.exercises.map((ex) => ({
+    name: ex.name,
+      equipment: ex.equipment || "Bodyweight",
+      instructions: ex.instructions || "",
+      sets: ex.sets,
+      reps: ex.reps,
+  })),
+});
+
+
+  } catch (error) {
+    console.error("Workout generation error:", error);
+  } finally {
+    setIsGenerating(false);
   }
+};
+
 
   return (
     <div className="dashboard-overlay" onClick={onClose}>
