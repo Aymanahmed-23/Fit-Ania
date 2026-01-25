@@ -1,3 +1,5 @@
+import db from "../database/db.js";
+
 export const generateWorkout = async (req, res) => {
   try {
     const { muscle, difficulty } = req.body;
@@ -35,12 +37,42 @@ export const generateWorkout = async (req, res) => {
       reps: normalizedDifficulty === "beginner" ? "12-15" : "8-12",
     }));
 
-    res.json({
-      muscle: normalizedMuscle,
-      difficulty: normalizedDifficulty,
-      exercises,
-    });
+    //  user_id hardcoded 
+    db.run(
+      `INSERT INTO workouts (user_id, muscle, difficulty) VALUES (?, ?, ?)`,
+      [1, normalizedMuscle, normalizedDifficulty],
+      function (err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Failed to save workout" });
+        }
 
+        const workoutId = this.lastID;
+
+        // 🔹 SAVE EXERCISES
+        exercises.forEach((ex) => {
+          db.run(
+            `INSERT INTO workout_exercises 
+            (workout_id, name, equipment, instructions, sets, reps)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+              workoutId,
+              ex.name,
+              ex.equipment,
+              ex.instructions,
+              ex.sets,
+              ex.reps,
+            ]
+          );
+        });
+
+        res.json({
+          muscle: normalizedMuscle,
+          difficulty: normalizedDifficulty,
+          exercises,
+        });
+      }
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

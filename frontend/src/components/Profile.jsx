@@ -1,11 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "./Profile.css";
 
 
 export default function Profile() {
   const [editMode, setEditMode] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [stats, setStats] = useState(null);
+
+
+    useEffect(() => {
+    fetch("/api/workouts/history")
+      .then(res => res.json())
+      .then(data => setHistory(data))
+      .catch(() => setHistory([]));
+
+
+      fetch("/api/workouts/stats")
+    .then(res => res.json())
+    .then(data => setStats(data))
+    .catch(() => setStats(null));
+
+  }, []);
+
   
   // Replace with your Ninja API data
   const userProfile = {
@@ -16,32 +34,28 @@ export default function Profile() {
     bio: 'Fitness enthusiast | Always pushing limits'
   };
 
-  const workoutStats = [
-    { label: 'Total Workouts', value: '127', icon: '💪' },
-    { label: 'Total Hours', value: '96h', icon: '⏱️' },
-    { label: 'This Week', value: '5 days', icon: '🔥' },
-    { label: 'Streak', value: '14 days', icon: '⚡' }
-  ];
 
-  const recentExercises = [
-    { name: 'Bench Press', reps: '5x5', weight: '185 lbs', difficulty: 'Hard' },
-    { name: 'Deadlift', reps: '3x5', weight: '315 lbs', difficulty: 'Hard' },
-    { name: 'Squats', reps: '5x5', weight: '225 lbs', difficulty: 'Medium' },
-    { name: 'Pull-ups', reps: '3x8', weight: 'Bodyweight', difficulty: 'Medium' }
-  ];
 
-  const favoriteWorkouts = [
-    { name: 'Chest Day', exercises: 6, duration: '50 min' },
-    { name: 'Back & Biceps', exercises: 5, duration: '45 min' },
-    { name: 'Leg Day', exercises: 7, duration: '60 min' },
-    { name: 'Cardio Blast', exercises: 3, duration: '30 min' }
-  ];
+  const recentExercises = history
+    .flatMap(workout =>
+      workout.exercises.map(ex => ({
+        name: ex.name,
+        reps: `${ex.sets} x ${ex.reps}`,
+        weight: ex.equipment || "Bodyweight",
+        difficulty: workout.difficulty
+      }))
+    )
+    .slice(0, 6);
+
+
+
+  {/*
 
   const personalRecords = [
     { exercise: 'Bench Press', weight: '225 lbs', date: 'Jan 15' },
     { exercise: 'Deadlift', weight: '335 lbs', date: 'Jan 10' },
     { exercise: 'Squat', weight: '275 lbs', date: 'Jan 5' }
-  ];
+  ]; */}
 
   return (
     <div className="profile-wrapper">
@@ -69,16 +83,25 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="stats-grid">
-          {workoutStats.map((stat, idx) => (
-            <div key={idx} className="stat-box">
-              <span className="stat-icon">{stat.icon}</span>
-              <span className="stat-number">{stat.value}</span>
-              <span className="stat-label">{stat.label}</span>
-            </div>
-          ))}
-        </div>
+{stats && (
+  <div className="stats-grid">
+    <div className="stat-box">
+      <span className="stat-number">{stats.totalWorkouts}</span>
+      <span className="stat-label">Total Workouts</span>
+    </div>
+
+    <div className="stat-box">
+      <span className="stat-number">{stats.thisWeek}</span>
+      <span className="stat-label">This Week</span>
+    </div>
+
+    <div className="stat-box">
+      <span className="stat-number">{stats.topMuscle || "-"}</span>
+      <span className="stat-label">Top Muscle</span>
+    </div>
+  </div>
+)}
+
 
         {/* Two Column Layout */}
         <div className="profile-grid">
@@ -104,7 +127,7 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Right Column - Personal Records */}
+          {/* Right Column - Personal Records 
           <div className="profile-section">
             <div className="section-header">
               <h2>Personal Records</h2>
@@ -122,15 +145,20 @@ export default function Profile() {
               ))}
             </div>
           </div>
+          */}
         </div>
 
         {/* Favorite Workouts */}
+        {/*
         <div className="profile-section">
+          {/*
           <div className="section-header">
             <h2>Favorite Workouts</h2>
             <a href="#" className="section-link">Create New</a>
           </div>
+          
           <div className="workouts-grid">
+            
             {favoriteWorkouts.map((workout, idx) => (
               <div key={idx} className="workout-card">
                 <div className="workout-icon">💪</div>
@@ -143,7 +171,9 @@ export default function Profile() {
               </div>
             ))}
           </div>
+
         </div>
+        */}
 
         {/* Settings Section */}
         <div className="profile-section">
