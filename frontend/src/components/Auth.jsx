@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import './auth.css';
+import "./Auth.css";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
