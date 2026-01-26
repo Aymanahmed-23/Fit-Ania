@@ -1,3 +1,5 @@
+console.log("WORKOUT ROUTES FILE LOADED");
+
 import { Router } from "express";
 import { generateWorkout } from "../controller/workout.controller.js";
 import { getWorkoutHistory } from "../controller/workoutHistory.controller.js";
