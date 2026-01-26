@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import "./Profile.css";
+import { authHeaders, logout } from "../utils/auth";
+import { Link } from "react-router-dom";
 
 
 export default function Profile() {
@@ -10,19 +12,38 @@ export default function Profile() {
   const [stats, setStats] = useState(null);
 
 
-    useEffect(() => {
-    fetch("/api/workouts/history")
-      .then(res => res.json())
-      .then(data => setHistory(data))
-      .catch(() => setHistory([]));
+useEffect(() => {
+
+  const token = localStorage.getItem("authToken");
+if (!token) {
+  window.location.href = "/sign-in";
+  return;
+}
 
 
-      fetch("/api/workouts/stats")
+fetch("/api/workouts/history", {
+  headers: {
+    ...authHeaders(),
+  },
+})
+  .then(res => {
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+    return res.json();
+  })
+  .then(data => setHistory(data));
+
+
+  fetch("/api/workouts/stats", {
+    headers: {
+      ...authHeaders(),
+    },
+  })
     .then(res => res.json())
-    .then(data => setStats(data))
-    .catch(() => setStats(null));
-
-  }, []);
+    .then(data => setStats(data));
+}, []);
 
   
   // Replace with your Ninja API data
@@ -182,7 +203,10 @@ export default function Profile() {
             <button className="settings-btn">Edit Profile</button>
             <button className="settings-btn">Change Password</button>
             <button className="settings-btn">Preferences</button>
-            <button className="settings-btn logout">Logout</button>
+           <button className="settings-btn logout" onClick={logout}>
+  Logout
+</button>
+
           </div>
         </div>
 

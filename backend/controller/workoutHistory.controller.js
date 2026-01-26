@@ -1,7 +1,7 @@
 import db from "../database/db.js";
 
 export const getWorkoutHistory = (req, res) => {
-  const userId = 1; // temporary (JWT baad me)
+  const userId = req.user.id;
 
   const query = `
     SELECT 
