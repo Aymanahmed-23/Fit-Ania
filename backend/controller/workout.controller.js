@@ -1,4 +1,6 @@
 import db from "../database/db.js";
+import fetch from "node-fetch";
+
 
 export const generateWorkout = async (req, res) => {
   try {
