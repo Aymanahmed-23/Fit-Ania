@@ -1,4 +1,6 @@
 import db from "../database/db.js";
+import fetch from "node-fetch";
+
 
 export const generateWorkout = async (req, res) => {
   try {
@@ -19,9 +21,17 @@ export const generateWorkout = async (req, res) => {
       },
     });
 
-    if (!response.ok) {
-      return res.status(502).json({ message: "Ninja API failed" });
-    }
+   if (!response.ok) {
+  const errText = await response.text();
+  console.error("NINJA STATUS:", response.status);
+  console.error("NINJA RESPONSE:", errText);
+  return res.status(502).json({
+    message: "Ninja API failed",
+    status: response.status,
+    ninja: errText,
+  });
+}
+
 
     const data = await response.json();
 

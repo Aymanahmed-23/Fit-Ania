@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/workouts", workoutRouter);
 app.use("/api/auth", authRouter);
 
+console.log("API_NINJAS_KEY:", process.env.API_NINJAS_KEY);
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
