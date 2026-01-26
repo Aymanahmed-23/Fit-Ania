@@ -5,8 +5,7 @@ node_modules/
 .env
 
 # SQLite database
-*.sqlite
-*.db
+
 
 # Logs
 npm-debug.log*
