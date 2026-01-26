@@ -21,7 +21,7 @@ if (!token) {
 }
 
 
-fetch("/api/workouts/history", {
+fetch(`${API_BASE}/api/workouts/history`, {
   headers: {
     ...authHeaders(),
   },
@@ -36,7 +36,7 @@ fetch("/api/workouts/history", {
   .then(data => setHistory(data));
 
 
-  fetch("/api/workouts/stats", {
+  fetch(`${API_BASE}//api/workouts/stats`, {
     headers: {
       ...authHeaders(),
     },
