@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import "./Auth.css";
+import { API_BASE } from '../config.js'; 
+
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -74,7 +76,7 @@ export default function Auth() {
         ? { email: formData.email, password: formData.password }
         : { name: formData.name, email: formData.email, password: formData.password };
 
-      const response = await fetch(endpoint, {
+      const response = await fetch(`${API_BASE}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
