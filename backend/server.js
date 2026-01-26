@@ -24,7 +24,11 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/workouts", workoutRouter);
 app.use("/api/auth", authRouter);
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
+
