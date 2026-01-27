@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react';
 import "./Profile.css";
 import { authHeaders, logout } from "../utils/auth";
 import { Link } from "react-router-dom";
+import ProfileHero from "./ProfileHero";
 
 
 export default function Profile() {
   const [editMode, setEditMode] = useState(false);
   const [history, setHistory] = useState([]);
   const [stats, setStats] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+
 
 
 useEffect(() => {
@@ -46,14 +49,15 @@ fetch("/api/workouts/history", {
 }, []);
 
   
-  // Replace with your Ninja API data
-  const userProfile = {
-    name: 'Alex Champion',
-    email: 'alex@fitforge.com',
-    memberSince: 'Jan 2024',
-    avatar: '/images/default-avatar.jpg',
-    bio: 'Fitness enthusiast | Always pushing limits'
-  };
+ const userProfile = {
+  name: user?.name || "Athlete",
+  email: user?.email || "",
+  avatar: user?.avatar || "/placeholder.svg",
+  bio: user?.bio || "Consistency beats motivation.",
+  memberSince: "2024",
+};
+
+  
 
 
 
@@ -83,26 +87,12 @@ fetch("/api/workouts/history", {
       <div className="profile-content-main">
         
         {/* Hero Header Section */}
-        <div className="profile-hero">
-          <div className="profile-hero-bg"></div>
-          <div className="profile-hero-content">
-            <div className="profile-avatar-section">
-              <img src={userProfile.avatar || "/placeholder.svg"} alt="Profile" className="profile-avatar-img" />
-              <button className="avatar-badge" onClick={() => setEditMode(!editMode)}>
-                ✏️
-              </button>
-            </div>
-            <div className="profile-hero-text">
-              <h1 className="profile-name">{userProfile.name}</h1>
-              <p className="profile-bio">{userProfile.bio}</p>
-              <div className="profile-meta">
-                <span>{userProfile.email}</span>
-                <span className="dot">•</span>
-                <span>Member since {userProfile.memberSince}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+<ProfileHero
+  userProfile={userProfile}
+  editMode={editMode}
+  setEditMode={setEditMode}
+/>
+
 
 {stats && (
   <div className="stats-grid">
