@@ -1,7 +1,10 @@
 import db from "../database/db.js";
+import fetch from "node-fetch";
+
+
 
 export const getWorkoutStats = (req, res) => {
-   const userId = req.user.id;
+   const userId = req.user?.userId;
 
   const stats = {};
 

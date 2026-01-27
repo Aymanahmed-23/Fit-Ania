@@ -1,7 +1,8 @@
 import db from "../database/db.js";
+import fetch from "node-fetch";
 
 export const getWorkoutHistory = (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.userId;
 
   const query = `
     SELECT 

@@ -5,6 +5,9 @@ import "./Profile.css";
 import { authHeaders, logout } from "../utils/auth";
 import { Link } from "react-router-dom";
 import ProfileHero from "./ProfileHero";
+import { API_BASE } from "../config";
+
+
 
 
 export default function Profile() {
@@ -24,7 +27,7 @@ if (!token) {
 }
 
 
-fetch("/api/workouts/history", {
+fetch(`${API_BASE}/api/workouts/history`, {
   headers: {
     ...authHeaders(),
   },
@@ -39,7 +42,7 @@ fetch("/api/workouts/history", {
   .then(data => setHistory(data));
 
 
-  fetch("/api/workouts/stats", {
+  fetch(`${API_BASE}/api/workouts/stats`, {
     headers: {
       ...authHeaders(),
     },

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState } from 'react';
 
 const muscleGroups = [
   'Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 
@@ -51,11 +51,20 @@ const handleGenerate = async () => {
   setIsGenerating(true);
 
   try {
-    const response = await fetch("/api/workouts/generate", {
+    const token = localStorage.getItem("authToken");
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // ✅ Attach token ONLY if user is logged in
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const response = await fetch("http://localhost:5000/api/workouts/generate", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
         muscle: selectedMuscle,
         difficulty: selectedDifficulty,
@@ -66,28 +75,27 @@ const handleGenerate = async () => {
       throw new Error("Failed to generate workout");
     }
 
-  const data = await response.json();
-  console.log(data);
+    const data = await response.json();
+    console.log(data);
 
-  setGeneratedWorkout({
-    muscle: data.muscle,
-    difficulty: data.difficulty,
-    exercises: data.exercises.map((ex) => ({
-    name: ex.name,
-      equipment: ex.equipment || "Bodyweight",
-      instructions: ex.instructions || "",
-      sets: ex.sets,
-      reps: ex.reps,
-  })),
-});
-
-
+    setGeneratedWorkout({
+      muscle: data.muscle,
+      difficulty: data.difficulty,
+      exercises: data.exercises.map((ex) => ({
+        name: ex.name,
+        equipment: ex.equipment || "Bodyweight",
+        instructions: ex.instructions || "",
+        sets: ex.sets,
+        reps: ex.reps,
+      })),
+    });
   } catch (error) {
     console.error("Workout generation error:", error);
   } finally {
     setIsGenerating(false);
   }
 };
+
 
 
   return (
