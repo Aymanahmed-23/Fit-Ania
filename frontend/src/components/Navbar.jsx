@@ -47,7 +47,7 @@ const handleLogout = () => {
       <nav className="navbar">
         <div className="navbar-brand">
           <div className="navbar-logo">
-            <img src="src/silhoulette-bb.jpg" alt="Logo" />
+            <img src="/silhoulette-bb.jpg" alt="Logo" />
             </div>
           <Link to="/" className="navbar-title">
   Fit-Ania
