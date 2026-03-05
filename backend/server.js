@@ -20,7 +20,17 @@ mongoose
 // Middleware
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL, process.env.FRONTEND_PROD],
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        origin.includes("localhost") ||
+        origin.includes("vercel.app")
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
