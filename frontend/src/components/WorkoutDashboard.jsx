@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-import { API_BASE } from "../config";
+
 const muscleGroups = [
   "Chest",
   "Back",

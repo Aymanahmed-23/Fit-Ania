@@ -5,7 +5,7 @@ import "./Profile.css";
 import { authHeaders, logout } from "../utils/auth";
 import { Link } from "react-router-dom";
 import ProfileHero from "../../public/ProfileHero";
-import { API_BASE } from "../config";
+
 
 
 
