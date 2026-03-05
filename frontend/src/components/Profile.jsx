@@ -17,6 +17,7 @@ export default function Profile() {
   let user = null;
 
 try {
+   const API_BASE = import.meta.env.VITE_API_URL;
   const storedUser = localStorage.getItem("user");
   if (storedUser) {
     user = JSON.parse(storedUser);

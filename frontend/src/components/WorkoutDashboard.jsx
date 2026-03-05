@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-
+import { API_BASE } from "../config";
 const muscleGroups = [
   "Chest",
   "Back",
@@ -36,7 +36,7 @@ const handleGenerate = async () => {
 
   try {
     const token = localStorage.getItem("authToken");
-
+     const API_BASE = import.meta.env.VITE_API_URL;
     const headers = {
       "Content-Type": "application/json",
     };
@@ -45,7 +45,7 @@ const handleGenerate = async () => {
       headers.Authorization = `Bearer ${token}`;
     }
 
-    const response = await fetch("http://localhost:5000/api/workouts/generate", {
+    const response = await fetch(`${API_BASE}/api/workouts/generate`, {
       method: "POST",
       headers,
       body: JSON.stringify({
