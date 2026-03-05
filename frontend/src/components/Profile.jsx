@@ -14,16 +14,18 @@ export default function Profile() {
   const [editMode, setEditMode] = useState(false);
   const [history, setHistory] = useState([]);
   const [stats, setStats] = useState(null);
-  let user = null;
+ const API_BASE = import.meta.env.VITE_API_URL;
+
+let user = null;
 
 try {
-   const API_BASE = import.meta.env.VITE_API_URL;
   const storedUser = localStorage.getItem("user");
   if (storedUser) {
     user = JSON.parse(storedUser);
   }
 } catch (err) {
-  console.error("Invalid user in localStorage");
+  console.warn("Invalid user in localStorage");
+  localStorage.removeItem("user");
 }
 
 
